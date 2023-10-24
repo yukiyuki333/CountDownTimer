@@ -86,15 +86,26 @@ class AppWindow(QDialog):
             input_min=self.ui.inputMinuteBox.text()
             input_sec=self.ui.inputSecondBox.text()
             if input_hour:
-                self.hour=int(input_hour)
+                if int(input_hour)>100:
+                    self.hour = 100
+                else:
+                    self.hour=int(input_hour)
             else:
                 self.hour =0
+
             if input_min:
-                self.min=int(input_min)
+                if int(input_min) >= 60:
+                    self.min = 59
+                else:
+                    self.min=int(input_min)
             else:
                 self.min=0
+
             if input_sec:
-                self.sec=int(input_sec)
+                if int(input_sec) >= 60:
+                    self.sec=59
+                else:
+                    self.sec=int(input_sec)
             else:
                 self.sec=0
             self.showTimerState()
