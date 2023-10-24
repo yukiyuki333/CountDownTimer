@@ -13,25 +13,12 @@ class PlayMusicCtrl(QtWidgets.QWidget):
         bgm_path = os.getcwd() + '/'
         musicContent = QMediaContent(QUrl.fromLocalFile(bgm_path + 'bgm.mp3'))
         self.musicPlayer.setMedia(musicContent)
-        self.ui()
-        self.playMusic()
-        self.show()
-
 
     def playMusic(self):
         self.musicPlayer.play()
-        print(self.musicPlayer.state())
+        #print(self.musicPlayer.state())
 
     def stopMusic(self):
         self.musicPlayer.pause()
-        print(self.musicPlayer.state())
+        #print(self.musicPlayer.state())
         self.musicPlayer.setPosition(0)
-    def ui(self):
-        self.contest = QtWidgets.QLabel(self)
-        self.contest.setText("Player")
-        self.contest.setStyleSheet('font-size:26px;')
-        self.contest.setGeometry(40,60,350,40)
-
-app = QApplication(sys.argv)
-w = PlayMusicCtrl()
-sys.exit(app.exec_())

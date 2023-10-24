@@ -7,6 +7,7 @@ from PyQt5.QtMultimedia import QMediaPlayer,QMediaContent
 from time import perf_counter, sleep
 import threading
 from HintWindow import HintWindow
+from playMusicCtrl import PlayMusicCtrl
 
 
 def create_thread(target):
@@ -23,6 +24,8 @@ class AppWindow(QDialog):
         # variables
         self.endFlag, self.pauseFlag,self.timerIsRunningFlag= 0,0,0
         self.hour, self.min, self.sec = 0, 30, 1
+
+        self.musicPlayer=PlayMusicCtrl()
 
         # music player setting
         self.musicIsPlayingFlag=0
@@ -121,6 +124,17 @@ class AppWindow(QDialog):
                 break
             if self.pauseFlag == 1:
                 break
+        # play the music only when count to 0
+        if self.timerIsRunningFlag==0 and self.hour==0 and self.min==0 and self.sec==0:
+            if self.musicIsPlayingFlag==1:
+                self.musicPlayer.stopMusic()
+                self.musicPlayer.playMusic()
+            else:
+                self.ui.playMusicButton.setText("stopMusic")
+                self.musicPlayer.playMusic()
+                self.musicIsPlayingFlag = 1
+
+
     # 顯示當前計時器狀態
     def showTimerState(self):
         font = QtGui.QFont()
@@ -164,13 +178,13 @@ class AppWindow(QDialog):
     # 播放音樂設置
     def playMusic(self):
         if self.musicIsPlayingFlag==0:
-            #play music
-            self.musicIsPlayingFlag=1
-            self.ui.playMusicButton.setText("playMusic")
-        else:
-            #pause music
-            self.musicIsPlayingFlag = 0
             self.ui.playMusicButton.setText("stopMusic")
+            self.musicPlayer.playMusic()
+            self.musicIsPlayingFlag=1
+        else:
+            self.ui.playMusicButton.setText("playMusic")
+            self.musicPlayer.stopMusic()
+            self.musicIsPlayingFlag = 0
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
